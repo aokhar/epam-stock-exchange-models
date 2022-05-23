@@ -1,6 +1,6 @@
 package com.epam.rd.stock.exchange.model;
 
-import com.epam.rd.stock.exchange.model.enums.StockType;
+import com.epam.rd.stock.exchange.model.enums.ValuableType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,12 +17,12 @@ import javax.persistence.Table;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "stock")
+@Table(name = "valuable")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Stock {
+public class Valuable {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -42,8 +42,8 @@ public class Stock {
     @Column(name = "trend")
     private BigDecimal trend;
 
-    @Column(name = "stock_type")
+    @Column(name = "type")
     @Enumerated(value = EnumType.STRING)
-    private StockType type;
+    private ValuableType type;
 
 }
