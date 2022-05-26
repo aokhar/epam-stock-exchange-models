@@ -1,37 +1,33 @@
 package com.epam.rd.stock.exchange.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Builder
-@Table(name = "user_stock")
-public class UserStockInfo {
-
+@Table(name = "alert")
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Alert {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "CHAR(36)")
     private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id")
+    private String userId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "valuable_id")
-    private Valuable stock;
+    @Column(name = "message")
+    private String message;
 
-    @Column(name = "amount")
-    private Integer amount;
-
+    @Column(name = "date_time")
+    private LocalDateTime dateTime;
 }

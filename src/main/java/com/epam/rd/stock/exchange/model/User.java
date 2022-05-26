@@ -46,9 +46,9 @@ public class User {
     @Column(name = "balance")
     private BigDecimal balance;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Order> orders;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<UserStockInfo> stocks;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<UserValuableInfo> valuables;
 }

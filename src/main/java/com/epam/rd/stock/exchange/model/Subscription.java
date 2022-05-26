@@ -1,5 +1,7 @@
 package com.epam.rd.stock.exchange.model;
 
+import com.epam.rd.stock.exchange.model.enums.ConditionType;
+import com.epam.rd.stock.exchange.model.enums.Operator;
 import com.epam.rd.stock.exchange.model.enums.SubscriptionType;
 import com.epam.rd.stock.exchange.model.enums.ValuableType;
 import lombok.AllArgsConstructor;
@@ -9,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "subscription")
@@ -23,25 +26,56 @@ public class Subscription {
     @Column(columnDefinition = "CHAR(36)")
     private String id;
 
-    @Column(name = "name")
-    private String name;
-
     @Column(name = "amount")
-    private Integer amount;
+    private BigDecimal amount;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "valuable_id")
-    private Valuable valuable;
+    @Column(name = "valuable_id")
+    private String valuableId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id")
+    private String userId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "valuable_id")
-    private SubscriptionCondition condition;
+    @Column(name = "condition_type")
+    @Enumerated(value = EnumType.STRING)
+    private ConditionType conditionType;
+
+    @Column(name = "low")
+    private BigDecimal low;
+
+    @Column(name = "high")
+    private BigDecimal high;
+
+    @Column(name = "price")
+    private BigDecimal price;
+
+    @Column(name = "operator")
+    private Operator operator;
+
+    @Column(name = "fail_safe")
+    private boolean failSafe;
+
+    @Column(name = "reserve")
+    private boolean reserve;
+
+    @Column(name = "continuos")
+    private boolean continuos;
 
     @Column(name = "type")
     @Enumerated(value = EnumType.STRING)
     private SubscriptionType type;
+
+
+    public String conditionToString(){
+        if(conditionType.equals(ConditionType.DEFAULT)){
+            return String.format("When price are %s than %s", operator, price);
+        }
+        else if(conditionType.equals(ConditionType.LIMITS)){
+            return String.format("When price in limit from %s to %s", low, high);
+        }
+        else{
+            return String.format("When price lower-equals to %s and bigger-equals to %s", low, high);
+        }
+
+    }
+
 }

@@ -1,7 +1,5 @@
 package com.epam.rd.stock.exchange.model;
 
-import com.epam.rd.stock.exchange.model.enums.OrderStatus;
-import com.epam.rd.stock.exchange.model.enums.OrderType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,15 +8,14 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "orders")
 @Builder
-public class Order {
+@Table(name = "user_valuables")
+public class UserValuableInfo {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -30,30 +27,14 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "valuable_id")
     private Valuable valuable;
 
     @Column(name = "amount")
     private BigDecimal amount;
 
-    @Column(name = "order_price")
-    private BigDecimal orderPrice;
+    @Column(name = "amount_to_sell")
+    private BigDecimal sellAmount;
 
-    @Column(name = "valuable_price")
-    private BigDecimal valuablePrice;
-
-    @Column(name = "type")
-    @Enumerated(value = EnumType.STRING)
-    private OrderType type;
-
-    @Column(name = "date_time")
-    private LocalDateTime dateTime;
-
-    @Column(name = "status")
-    @Enumerated(value = EnumType.STRING)
-    private OrderStatus status;
-
-    @Column(name = "fail_description")
-    private String failDescription;
 }
